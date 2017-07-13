@@ -1,0 +1,11 @@
+def map(f: (Int => Int), l: List[Int]): List[Int] =>
+  if(is_empty(l)):
+    l
+  else:
+    f(hd(l))::(map(f, tl(l)))
+
+val x = [1,2,3,4] |> map((x:Int => x + 5 :Int))
+
+print("Example 1: Functional Programming Styles [see source]")
+print(x)
+

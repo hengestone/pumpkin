@@ -1,4 +1,4 @@
-type action = Tokens | Ast | Sast | Compile
+type action = Tokens | Ast | Sast | Compile | CompileLua
 
 let _ =
   if Array.length Sys.argv < 2 then
@@ -14,7 +14,8 @@ let _ =
     let action = List.assoc Sys.argv.(1) [ ("-t", Tokens);
                                            ("-a", Ast);
                                            ("-s", Sast);
-                                           ("-c", Compile) ] and
+                                           ("-c", Compile);
+                                           ("-l", CompileLua);] and
     filename = Sys.argv.(2) in
     let file_in = open_in filename in
     try
@@ -31,6 +32,8 @@ let _ =
             print_string (Utils.a_program_to_string sast_output)
         | Compile ->
             print_string (Codegen.pumpkin_to_js sast_output ^ "\n")
+        | CompileLua ->
+            print_string (Codegen_lua.pumpkin_to_lua sast_output ^ "\n")
 
     with
         Exceptions.IllegalCharacter(c, ln) ->
